@@ -3,6 +3,10 @@ import time, torch
 import torch.nn.functional as F
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
 
+"""
+Modified from https://colab.research.google.com/drive/1-_KjlAV3J1IVDw_9KogjKDCzgFY7Jp7E
+"""
+
 class QAServer:
     def __init__(self, model_path, config_path, device="cuda:0", timeout=300, **args):
         self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
@@ -11,8 +15,9 @@ class QAServer:
         weights = torch.load(model_path)
         weights["lm_head.weight"] = weights["lm_head.decoder.weight"]
         weights.pop("lm_head.decoder.weight",None)
+        self.device = device if torch.cuda.is_available() else "cpu"
         self.model.load_state_dict(weights)
-        self.model.to(device)
+        self.model.to(self.device)
         self.model.eval()
         self.timeout = timeout
         self.session = {}
@@ -62,7 +67,7 @@ class QAServer:
          
         tokens_tensor = torch.tensor([indexed_tokens])
          
-        tokens_tensor = tokens_tensor.to('cuda')
+        tokens_tensor = tokens_tensor.to(self.device)
         with torch.no_grad():
             outputs, self.session[sid]["past"] = self.model(tokens_tensor, past=p)
             predictions = outputs

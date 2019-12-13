@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  gossipbot:
+      image: zhupengjia/gossipbot:gpu
+      restart: always
+      runtime: nvidia
+      ports:
+          - 5000:5000
+      volumes:
+          - ../data:/opt/chatbot/data
+      working_dir: /opt/chatbot
+      environment:
+          NVIDIA_VISIBLE_DEVICES: all
+          MODEL_PATH:
+          CONFIG_PATH:
+          BOT_BACKEND: restful
+          DEVICE: "cuda:0"
