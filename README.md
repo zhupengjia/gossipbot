@@ -15,4 +15,6 @@ Usage:
               --backend BACKEND     choose for backend from: shell, restful, default is shell
     ```
 
-Dockerfile not tested, should be working
+Image in dockerhub:
+    - https://hub.docker.com/repository/docker/zhupengjia/gossipbot
+

@@ -1,4 +1,4 @@
-version: '3'
+version: '2.3'
 
 services:
 
@@ -9,11 +9,11 @@ services:
       ports:
           - 5000:5000
       volumes:
-          - ../data:/opt/chatbot/data
+          - /home/pzhu/data/dialog/dialogpt:/opt/chatbot/data
       working_dir: /opt/chatbot
       environment:
           NVIDIA_VISIBLE_DEVICES: all
-          MODEL_PATH:
-          CONFIG_PATH:
+          MODEL_PATH: /opt/chatbot/data/large_ft.pkl
+          CONFIG_PATH: /opt/chatbot/data/762M/config.json
           BOT_BACKEND: restful
           DEVICE: "cuda:0"

@@ -26,7 +26,7 @@ class Restful:
     def __init__(self, port=5000, **args):
         self.url_rule = "/api/query"
         self.methods = ["POST"]
-        self.port = port
+        self.port = int(port)
         self.app = Flask(__name__)
         self.app.add_url_rule(self.url_rule, methods=self.methods, view_func=self.get_response)
         self.session = QAServer(**args)
@@ -35,7 +35,7 @@ class Restful:
         query = request.form.get('text').strip()
         session_id = request.form.get('sessionId', "123456")
 
-        response, score = self.session(query, session_id=session_id)
+        response, score = self.session(query, sid=session_id)
         if response is None:
             return Response(json.dumps({"code":0, "message":"200 OK", 'sessionId':session_id, "data":{"response": None, "score":0}}), mimetype='application/json')
         return Response(json.dumps({"code":0, "message":"200 OK", 'sessionId':session_id, "data":{"response": response, "score":score}}), mimetype='application/json')

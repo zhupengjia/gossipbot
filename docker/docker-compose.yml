@@ -8,9 +8,9 @@ services:
       ports:
           - 5000:5000
       volumes:
-          - ../data:/opt/chatbot/data
+          - /home/pzhu/data/dialog/dialogpt:/opt/chatbot/data
       working_dir: /opt/chatbot
       environment:
-          MODEL_PATH:
-          CONFIG_PATH:
+          MODEL_PATH: /opt/chatbot/data/large_ft.pkl
+          CONFIG_PATH: /opt/chatbot/data/762M
           BOT_BACKEND: restful
